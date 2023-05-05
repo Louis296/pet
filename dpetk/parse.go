@@ -1,6 +1,7 @@
 package dpetk
 
 import (
+	"bytes"
 	"encoding/binary"
 	"io"
 	"os"
@@ -71,6 +72,7 @@ func (p *Parser) parse() *DataSet {
 		dataSet.DataInfo = p.parseDataInfo()
 	}
 	if !p.parseData {
+		dataSet.DataBuf = bytes.NewBuffer(nil)
 		io.Copy(dataSet.DataBuf, p.reader)
 	}
 	return dataSet
