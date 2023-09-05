@@ -1,0 +1,199 @@
+syntax="proto3";
+
+option go_package = "gitlab.com/louis296/pet/dpet";
+
+message PetFileHeader{
+  PublicInfo publicInfo=1;
+  ScanInfo scanInfo=2;
+  AcquisitionInfo acquisitionInfo=3;
+  ScannerInfo scannerInfo=4;
+  CoincidenceInfo coincidenceInfo=5;
+  ImageInfo imageInfo=6;
+}
+
+// 公共信息
+message PublicInfo{
+  FileType fileType=1;
+  DataTransferSyntax dataTransferSyntax=2;
+  string MD5=3;   // 数据区的md5值，用于文件校验
+}
+
+// 文件类型枚举
+enum FileType{
+  RawData=0;
+  ListModeCoin=1;
+  Mich=2;
+  Img=3;
+  EnergyCalibrationMap=4;
+  TimeCalibrationMap=5;
+  EnergySpectrumData=6;
+}
+
+// 数据区传输语义
+enum DataTransferSyntax{
+  Deflate=0;
+}
+
+// 扫描信息
+message ScanInfo{
+  int32 angleNum=1;
+  int32 ctBedIndex=2;
+  int32 ctBedNum=3;
+  int32 ctScanLength=4;
+  string ctScanMode=5;
+  int32 current=6;
+  string date=7;
+  string description=8;
+  string device=9;
+  double dose=10;
+  int32 injection=11;
+  string injectionAt=12;
+  bool isCoinWithScan=13;
+  string modality=14;
+  string orientation=15;
+  int32 petBedIndex=16;
+  int32 petBedNum=17;
+  string petCtFirst=18;
+  string petScanMode=19;
+  string petScanTime=20;
+  int32 preparation=21;
+  string preparationAt=22;
+  int32 residual=23;
+  string residualAt=24;
+  string scanId=25;
+  string tracer=26;
+  int32 voltage=27;
+}
+
+// 采集信息
+message AcquisitionInfo{
+  int32 buffSize=1;
+  int32 frameSize=2;
+  int32 packageNum=3;
+  int32 packageSize=4;
+
+  //930
+  int32 length=5;
+  int32 isotope=6;
+  float activity=7;
+  string injectTime=8;
+  string time=9;
+  int32 duration=10;
+  float timeWindow=11;
+  float delayWindow=12;
+  float xtalkWindow=13;
+  repeated float energyWindow=14;
+  int32 positionWindow=15;
+  int32 corrected=16;
+  float tablePosition=17;
+  float tableHeight=18;
+  float PETCTSpacing=19;
+  int32 tableCount=20;
+  int32 tableIndex=21;
+  float scanLengthPerTable=22;
+  string patientID=23;
+  string studyID=24;
+  string patientName=25;
+  string patientSex=26;
+  float  patientHeight=27;
+  float  patientWeight=28;
+}
+
+// 设备信息
+message ScannerInfo{
+  // 几何结构信息
+  int32 blockNumX = 1;
+  int32 blockNumY = 2;
+  int32 blockNumZ = 3;
+  float blockPitchX = 4;
+  float blockPitchY = 5;
+  float blockPitchZ = 6;
+  float blockSizeX = 7;
+  float blockSizeY = 8;
+  float blockSizeZ = 9;
+  int32 crystalNumX = 10;
+  int32 crystalNumY = 11;
+  int32 crystalNumZ = 12;
+  float crystalOffset = 13;
+  float crystalPitchX = 14;
+  float crystalPitchY = 15;
+  float crystalPitchZ = 16;
+  float crystalSizeX = 17;
+  float crystalSizeY = 18;
+  float crystalSizeZ = 19;
+  int32 moduleNumX = 20;
+  int32 moduleNumY = 21;
+  int32 moduleNumZ = 22;
+  float modulePitchX = 23;
+  float modulePitchY = 24;
+  float modulePitchZ = 25;
+  float moduleSizeX = 26;
+  float moduleSizeY = 27;
+  float moduleSizeZ = 28;
+  int32 panelNum = 29;
+  float panelPitchX = 30;
+  float panelPitchY = 31;
+  float panelPitchZ = 32;
+  float panelSizeX = 33;
+  float panelSizeY = 34;
+  float panelSizeZ = 35;
+  float positionSize = 36;
+  float scannerRadius = 37;
+
+  // 设备其它信息
+  string device=38;
+  string serial=39;
+
+  //930
+  int32 length=40;
+  repeated float mvtThresholds=41;
+  repeated float mvtParam=42;
+  int32 axisDetectors=43;
+  int32 transDetectors=44;
+  int32 detectorsRings=45;
+  int32 detectorsChannels=46;
+  int32 ipCounts=47;
+  int32 ipStart=48;
+  int32 channelCounts=49;
+  int32 channelStart=50;
+}
+
+// 符合信息
+message CoincidenceInfo{
+  int32 bedNum=1;
+  string coinType=2;
+  string coincidenceId=3;
+  string date=4;
+  string description=5;
+  string device=6;
+  float energyWindowEnd=7;
+  float energyWindowsStart=8;
+  string mergingAlgorithm=9;
+  float timingWindow=10;
+  bool usingGpu=11;
+}
+
+// 图像信息
+message ImageInfo{
+  int32  length=1;
+  int32  imageSizeRows=2;
+  int32  imageSizeCols=3;
+  int32  imageSizeSlices=4;
+  float  imageRowPixelSize=5;
+  float  imageColumnPixelSize=6;
+  float  imageSliceThickness=7;
+  string reconMethod=8;
+  int32  maxRingDiffNum=9;
+  int32  subsetNum=10;
+  int32  iterNum=11;
+  int32  attnCalibration=12;
+  int32  scatCalibration=13;
+  repeated float scatPara=14;
+  repeated float petCtFovOffset=15;
+  float  ctRotationAngle=16;
+  int32  seriesNumber=17;
+  string reconSoftwareVersion=18;
+  int32  promptsCounts=19;
+  int32  delayCounts=20;
+}
+
