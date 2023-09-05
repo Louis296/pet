@@ -13,7 +13,7 @@ type Convertor930 struct {
 	target dicom.Dataset
 }
 
-func (c *Convertor930) writeDicomDataset(st interface{}, tagGroup uint16) {
+func (c *Convertor930) writeDicomElement(st interface{}, tagGroup uint16) {
 	v := reflect.ValueOf(st)
 	for i := 0; i < v.NumField(); i++ {
 		f := v.Field(i)
@@ -46,10 +46,16 @@ func (c *Convertor930) writeDicomDataset(st interface{}, tagGroup uint16) {
 }
 
 func (c *Convertor930) Convert() (dicom.Dataset, error) {
-	c.writeDicomDataset(*c.Source.PublicInfo, ptag.PublicInfoGroup)
-	c.writeDicomDataset(*c.Source.DeviceInfo, ptag.DeviceInfoGroup)
+	c.writeDicomElement(*c.Source.PublicInfo, ptag.PublicInfoGroup)
+	c.writeDicomElement(*c.Source.DeviceInfo, ptag.DeviceInfoGroup)
 	if c.Source.DeviceInfo != nil {
-		c.writeDicomDataset(*c.Source.AcquisitionInfo, ptag.AcquisitionInfoGroup)
+		c.writeDicomElement(*c.Source.AcquisitionInfo, ptag.AcquisitionInfoGroup)
+	}
+	if c.Source.ImageInfo != nil {
+		c.writeDicomElement(*c.Source.ImageInfo, ptag.ImageInfoGroup)
+	}
+	if c.Source.DataInfo != nil {
+		c.writeDicomElement(*c.Source.DataInfo, ptag.DataInfoGroup)
 	}
 	return c.target, nil
 }

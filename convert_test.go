@@ -14,7 +14,7 @@ func TestConvertor930_Convert(t *testing.T) {
 	c := convert.Convertor930{Source: dataset}
 	dicomDataset, _ := c.Convert()
 	f, _ := os.Create("out.dcm")
-	err := dicom.Write(f, dicomDataset, dicom.DefaultMissingTransferSyntax())
+	err := dicom.Write(f, dicomDataset, dicom.DefaultMissingTransferSyntax(), dicom.SkipVRVerification())
 	if err != nil {
 		fmt.Println(err)
 	}
