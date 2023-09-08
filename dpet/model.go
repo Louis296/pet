@@ -46,7 +46,7 @@ type RawData930 struct {
 
 type RawDataItem930 struct {
 	Data []uint8
-	IP   string
+	IP   uint16
 }
 
 // ListModeCoinDataE180 E180符合信息
@@ -68,7 +68,7 @@ type ListModeCoinData930 struct {
 }
 
 type ListModeDataItem930 struct {
-	IP       string
+	IP       uint16
 	XTalk    bool
 	Reserved uint8
 	Channel  uint16

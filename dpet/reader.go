@@ -47,18 +47,40 @@ func Parse(buf *bytes.Buffer) (*Dataset, error) {
 	decompressBuf := bytes.NewBuffer(nil)
 	decompressBuf.ReadFrom(fr)
 
-	switch header.Content.PublicInfo.FileType {
-	case FileType_RawData:
-		dataset.Data = parseRawData(decompressBuf)
-	case FileType_ListModeCoin:
-		dataset.Data = parseListModeCoinData(decompressBuf)
-	case FileType_Mich:
-		dataset.Data = parseMichData(decompressBuf)
+	switch header.Content.ScannerInfo.Device {
+	case "930":
+		parseData930(buf, header.Content.PublicInfo.FileType)
+	case "e180":
+		parseDataE180(buf, header.Content.PublicInfo.FileType)
 	}
 	return dataset, nil
 }
 
-func parseRawData(buf *bytes.Buffer) *RawDataE180 {
+func parseData930(buf *bytes.Buffer, fileType FileType) interface{} {
+	switch fileType {
+	case FileType_RawData:
+		return parseRawData930(buf)
+	case FileType_ListModeCoin:
+		return parseListModeCoinData930(buf)
+	case FileType_Mich:
+		return parseMichData930(buf)
+	}
+	return nil
+}
+
+func parseDataE180(buf *bytes.Buffer, fileType FileType) interface{} {
+	switch fileType {
+	case FileType_RawData:
+		return parseRawDataE180(buf)
+	case FileType_ListModeCoin:
+		return parseListModeCoinDataE180(buf)
+	case FileType_Mich:
+		return parseMichDataE180(buf)
+	}
+	return nil
+}
+
+func parseRawDataE180(buf *bytes.Buffer) *RawDataE180 {
 	var infos []*BDMInfo
 	for buf.Len() > 0 {
 		info := &BDMInfo{
@@ -89,7 +111,7 @@ func parseRawData(buf *bytes.Buffer) *RawDataE180 {
 	return &RawDataE180{BDMInfos: infos}
 }
 
-func parseListModeCoinData(buf *bytes.Buffer) *ListModeCoinDataE180 {
+func parseListModeCoinDataE180(buf *bytes.Buffer) *ListModeCoinDataE180 {
 	var pairs []CoinPair
 	for buf.Len() > 0 {
 		pair := [2]*CoinInfo{
@@ -109,7 +131,50 @@ func parseListModeCoinData(buf *bytes.Buffer) *ListModeCoinDataE180 {
 	return &ListModeCoinDataE180{CoinPairs: pairs}
 }
 
-func parseMichData(buf *bytes.Buffer) []float32 {
+func parseMichDataE180(buf *bytes.Buffer) []float32 {
+	var res []float32
+	for buf.Len() > 0 {
+		res = append(res, readFloat32(buf))
+	}
+	return res
+}
+
+func parseRawData930(buf *bytes.Buffer) *RawData930 {
+	var res []RawDataItem930
+	for {
+		data := buf.Next(1152)
+		if len(data) == 0 {
+			break
+		}
+		res = append(res, RawDataItem930{
+			Data: data,
+			IP:   binary.LittleEndian.Uint16(buf.Next(2)),
+		})
+	}
+	return &RawData930{List: res}
+}
+
+func parseListModeCoinData930(buf *bytes.Buffer) *ListModeCoinData930 {
+	var res []ListModeDataItem930
+	for {
+		rawIp := buf.Next(2)
+		if len(rawIp) == 0 {
+			break
+		}
+		ch := binary.LittleEndian.Uint16(buf.Next(2))
+		res = append(res, ListModeDataItem930{
+			IP:       binary.LittleEndian.Uint16(rawIp),
+			XTalk:    ch&(1<<15) != 0,
+			Reserved: uint8((ch >> 12) & (1<<3 - 1)),
+			Channel:  ch & (1<<12 - 1),
+			Energy:   readFloat32(buf),
+			Time:     readFloat64(buf),
+		})
+	}
+	return &ListModeCoinData930{List: res}
+}
+
+func parseMichData930(buf *bytes.Buffer) []float32 {
 	var res []float32
 	for buf.Len() > 0 {
 		res = append(res, readFloat32(buf))
