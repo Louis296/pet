@@ -126,13 +126,47 @@ func writeRawDataE180(data *RawDataE180, w io.Writer) (err error) {
 }
 
 func writeListModeCoinDataE180(data *ListModeCoinDataE180, w io.Writer) (err error) {
+	for _, pair := range data.CoinPairs {
+		err = binary.Write(w, binary.LittleEndian, pair[0].GlobalCrystalIndex)
+		err = binary.Write(w, binary.LittleEndian, pair[0].Energy)
+		err = binary.Write(w, binary.LittleEndian, pair[0].TimeValue)
+		err = binary.Write(w, binary.LittleEndian, pair[1].GlobalCrystalIndex)
+		err = binary.Write(w, binary.LittleEndian, pair[1].Energy)
+		err = binary.Write(w, binary.LittleEndian, pair[1].TimeValue)
+		if err != nil {
+			return
+		}
+	}
 	return nil
 }
 
 func writeRawData930(data *RawData930, w io.Writer) (err error) {
+	for _, item := range data.List {
+		_, err = w.Write(item.Data)
+		if err != nil {
+			return
+		}
+		err = binary.Write(w, binary.LittleEndian, item.IP)
+		if err != nil {
+			return
+		}
+	}
 	return nil
 }
 
 func writeListModeCoinData930(data *ListModeCoinData930, w io.Writer) (err error) {
+	for _, item := range data.List {
+		err = binary.Write(w, binary.LittleEndian, item.IP)
+		ch := uint16(item.Reserved)<<12 + item.Channel
+		if item.XTalk {
+			ch &= 1 << 15
+		}
+		err = binary.Write(w, binary.LittleEndian, ch)
+		err = binary.Write(w, binary.LittleEndian, item.Energy)
+		err = binary.Write(w, binary.LittleEndian, item.Time)
+		if err != nil {
+			return
+		}
+	}
 	return nil
 }
