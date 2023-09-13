@@ -1,10 +1,15 @@
 package dpet
 
+import "bytes"
+
 var MagicNumber = []byte{'D', 'P', 'E', 'T'}
 
 type Dataset struct {
 	Header *Header
 	Data   interface{}
+
+	// 如果选择不解析data，数据体会以二进制形式存放在此处
+	DataBuf *bytes.Buffer
 }
 
 type Header struct {

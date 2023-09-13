@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func ParseFile(path string) (*Dataset, error) {
+func ParseFile(path string, opt ...ParseOption) (*Dataset, error) {
 	f, err := os.Open(path)
 	if err != nil {
 		return nil, err
@@ -18,10 +18,12 @@ func ParseFile(path string) (*Dataset, error) {
 	if err != nil {
 		return nil, err
 	}
-	return Parse(buf)
+	return Parse(buf, opt...)
 }
 
-func Parse(buf *bytes.Buffer) (*Dataset, error) {
+func Parse(buf *bytes.Buffer, opt ...ParseOption) (*Dataset, error) {
+	option := genParseOption(opt...)
+
 	magicNumber := buf.Next(4)
 	dataset := &Dataset{}
 	if string(magicNumber) != string(MagicNumber) {
@@ -47,6 +49,10 @@ func Parse(buf *bytes.Buffer) (*Dataset, error) {
 	decompressBuf := bytes.NewBuffer(nil)
 	decompressBuf.ReadFrom(fr)
 
+	if option.notParseData {
+		dataset.DataBuf = decompressBuf
+		return dataset, nil
+	}
 	switch header.Content.ScannerInfo.Device {
 	case "930":
 		parseData930(buf, header.Content.PublicInfo.FileType)
