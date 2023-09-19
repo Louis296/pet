@@ -36,12 +36,12 @@ type DeviceInfo struct {
 	TransDetectors    uint16
 	DetectorsRings    uint16
 	DetectorsChannels uint16
-	IPCounts          uint16
-	IPStart           uint16
+	IpCounts          uint16
+	IpStart           uint16
 	ChannelCounts     uint16
 	ChannelStart      uint16
-	MVTThresholds     []float32
-	MVTParameters     []float32
+	MvtThresholds     []float32
+	MvtParameters     []float32
 }
 
 // AcquisitionInfo 1.2.3 采集信息

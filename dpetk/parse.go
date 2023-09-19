@@ -10,11 +10,16 @@ import (
 
 func ParseFile(path string, parseData bool) (*DataSet, error) {
 	file, err := os.Open(path)
+
 	if err != nil {
 		return nil, err
 	}
+	return Parse(file, parseData)
+}
+
+func Parse(reader io.Reader, parseData bool) (*DataSet, error) {
 	p := &Parser{
-		reader:    file,
+		reader:    reader,
 		byteOrder: binary.LittleEndian,
 		modifyStr: false,
 
@@ -99,12 +104,12 @@ func (p *Parser) parseDeviceInfo() *DeviceInfo {
 		TransDetectors:    p.mustNextUint16(),
 		DetectorsRings:    p.mustNextUint16(),
 		DetectorsChannels: p.mustNextUint16(),
-		IPCounts:          p.mustNextUint16(),
-		IPStart:           p.mustNextUint16(),
+		IpCounts:          p.mustNextUint16(),
+		IpStart:           p.mustNextUint16(),
 		ChannelCounts:     p.mustNextUint16(),
 		ChannelStart:      p.mustNextUint16(),
-		MVTThresholds:     p.mustNextFloat32Slice(8),
-		MVTParameters:     p.mustNextFloat32Slice(3),
+		MvtThresholds:     p.mustNextFloat32Slice(8),
+		MvtParameters:     p.mustNextFloat32Slice(3),
 	}
 }
 

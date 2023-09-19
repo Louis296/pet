@@ -31,6 +31,7 @@ func TestGenDpetFileHeader(t *testing.T) {
 		AcquisitionInfo: acquisition,
 		ScannerInfo:     scannerInfo,
 		CoincidenceInfo: coincidenceInfo,
+		ImageInfo:       nil,
 	}
 
 	out, err := proto.Marshal(header)

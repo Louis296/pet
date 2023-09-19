@@ -23,10 +23,12 @@ enum FileType{
   RawData=0;
   ListModeCoin=1;
   Mich=2;
-  Img=3;
-  EnergyCalibrationMap=4;
-  TimeCalibrationMap=5;
-  EnergySpectrumData=6;
+  EnergyCalibrationMap=3;
+  TimeCalibrationMap=4;
+  EnergySpectrumData=5;
+  Img=6;
+  PositionTable=7;
+  EnergyMap=8;
 }
 
 // 数据区传输语义
@@ -73,7 +75,6 @@ message AcquisitionInfo{
   int32 packageSize=4;
 
   //930
-  int32 length=5;
   int32 isotope=6;
   float activity=7;
   string injectTime=8;
@@ -145,9 +146,8 @@ message ScannerInfo{
   string serial=39;
 
   //930
-  int32 length=40;
   repeated float mvtThresholds=41;
-  repeated float mvtParam=42;
+  repeated float mvtParameters=42;
   int32 axisDetectors=43;
   int32 transDetectors=44;
   int32 detectorsRings=45;
@@ -175,7 +175,6 @@ message CoincidenceInfo{
 
 // 图像信息
 message ImageInfo{
-  int32  length=1;
   int32  imageSizeRows=2;
   int32  imageSizeCols=3;
   int32  imageSizeSlices=4;
