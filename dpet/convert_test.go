@@ -35,3 +35,13 @@ func TestConvertFrom930(t *testing.T) {
 	})
 	fmt.Println(res)
 }
+
+func TestConvertFrom930File(t *testing.T) {
+	dataset, err := dpetk.ParseFile("../resource/test-raw-data.bin", false)
+	if err != nil {
+		fmt.Println(err.Error())
+		t.FailNow()
+	}
+	datasetNew := convertFrom930(dataset)
+	fmt.Println(datasetNew)
+}

@@ -180,10 +180,10 @@ func parseListModeCoinData930(buf *bytes.Buffer) *ListModeCoinData930 {
 	return &ListModeCoinData930{List: res}
 }
 
-func parseMichData930(buf *bytes.Buffer) []float32 {
-	var res []float32
+func parseMichData930(buf *bytes.Buffer) []uint16 {
+	var res []uint16
 	for buf.Len() > 0 {
-		res = append(res, readFloat32(buf))
+		res = append(res, binary.LittleEndian.Uint16(buf.Next(2)))
 	}
 	return res
 }

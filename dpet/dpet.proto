@@ -83,7 +83,7 @@ message AcquisitionInfo{
   float timeWindow=11;
   float delayWindow=12;
   float xtalkWindow=13;
-  repeated float energyWindow=14;
+  repeated uint32 energyWindow=14;
   int32 positionWindow=15;
   int32 corrected=16;
   float tablePosition=17;

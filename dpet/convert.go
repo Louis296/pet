@@ -53,7 +53,15 @@ func convertFrom930(dataset *dpetk.DataSet) *Dataset {
 	fillStructByStructFieldName(petHeader.AcquisitionInfo, dataset.AcquisitionInfo)
 	fillStructByStructFieldName(petHeader.ScannerInfo, dataset.DeviceInfo)
 	fillStructByStructFieldName(petHeader.ImageInfo, dataset.ImageInfo)
-	return nil
+
+	return &Dataset{
+		Header: &Header{
+			MarshalMethod: MarshallMethodProto,
+			DataLen:       0,
+			Content:       petHeader,
+		},
+		DataBuf: dataset.DataBuf,
+	}
 }
 
 // fillStructByStructFieldName 通过字段名进行结构体自动装配

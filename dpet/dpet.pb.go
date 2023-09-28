@@ -550,29 +550,29 @@ type AcquisitionInfo struct {
 	PackageNum  int32 `protobuf:"varint,3,opt,name=packageNum,proto3" json:"packageNum,omitempty"`
 	PackageSize int32 `protobuf:"varint,4,opt,name=packageSize,proto3" json:"packageSize,omitempty"`
 	// 930
-	Isotope            int32     `protobuf:"varint,6,opt,name=isotope,proto3" json:"isotope,omitempty"`
-	Activity           float32   `protobuf:"fixed32,7,opt,name=activity,proto3" json:"activity,omitempty"`
-	InjectTime         string    `protobuf:"bytes,8,opt,name=injectTime,proto3" json:"injectTime,omitempty"`
-	Time               string    `protobuf:"bytes,9,opt,name=time,proto3" json:"time,omitempty"`
-	Duration           int32     `protobuf:"varint,10,opt,name=duration,proto3" json:"duration,omitempty"`
-	TimeWindow         float32   `protobuf:"fixed32,11,opt,name=timeWindow,proto3" json:"timeWindow,omitempty"`
-	DelayWindow        float32   `protobuf:"fixed32,12,opt,name=delayWindow,proto3" json:"delayWindow,omitempty"`
-	XtalkWindow        float32   `protobuf:"fixed32,13,opt,name=xtalkWindow,proto3" json:"xtalkWindow,omitempty"`
-	EnergyWindow       []float32 `protobuf:"fixed32,14,rep,packed,name=energyWindow,proto3" json:"energyWindow,omitempty"`
-	PositionWindow     int32     `protobuf:"varint,15,opt,name=positionWindow,proto3" json:"positionWindow,omitempty"`
-	Corrected          int32     `protobuf:"varint,16,opt,name=corrected,proto3" json:"corrected,omitempty"`
-	TablePosition      float32   `protobuf:"fixed32,17,opt,name=tablePosition,proto3" json:"tablePosition,omitempty"`
-	TableHeight        float32   `protobuf:"fixed32,18,opt,name=tableHeight,proto3" json:"tableHeight,omitempty"`
-	PETCTSpacing       float32   `protobuf:"fixed32,19,opt,name=PETCTSpacing,proto3" json:"PETCTSpacing,omitempty"`
-	TableCount         int32     `protobuf:"varint,20,opt,name=tableCount,proto3" json:"tableCount,omitempty"`
-	TableIndex         int32     `protobuf:"varint,21,opt,name=tableIndex,proto3" json:"tableIndex,omitempty"`
-	ScanLengthPerTable float32   `protobuf:"fixed32,22,opt,name=scanLengthPerTable,proto3" json:"scanLengthPerTable,omitempty"`
-	PatientID          string    `protobuf:"bytes,23,opt,name=patientID,proto3" json:"patientID,omitempty"`
-	StudyID            string    `protobuf:"bytes,24,opt,name=studyID,proto3" json:"studyID,omitempty"`
-	PatientName        string    `protobuf:"bytes,25,opt,name=patientName,proto3" json:"patientName,omitempty"`
-	PatientSex         string    `protobuf:"bytes,26,opt,name=patientSex,proto3" json:"patientSex,omitempty"`
-	PatientHeight      float32   `protobuf:"fixed32,27,opt,name=patientHeight,proto3" json:"patientHeight,omitempty"`
-	PatientWeight      float32   `protobuf:"fixed32,28,opt,name=patientWeight,proto3" json:"patientWeight,omitempty"`
+	Isotope            int32    `protobuf:"varint,6,opt,name=isotope,proto3" json:"isotope,omitempty"`
+	Activity           float32  `protobuf:"fixed32,7,opt,name=activity,proto3" json:"activity,omitempty"`
+	InjectTime         string   `protobuf:"bytes,8,opt,name=injectTime,proto3" json:"injectTime,omitempty"`
+	Time               string   `protobuf:"bytes,9,opt,name=time,proto3" json:"time,omitempty"`
+	Duration           int32    `protobuf:"varint,10,opt,name=duration,proto3" json:"duration,omitempty"`
+	TimeWindow         float32  `protobuf:"fixed32,11,opt,name=timeWindow,proto3" json:"timeWindow,omitempty"`
+	DelayWindow        float32  `protobuf:"fixed32,12,opt,name=delayWindow,proto3" json:"delayWindow,omitempty"`
+	XtalkWindow        float32  `protobuf:"fixed32,13,opt,name=xtalkWindow,proto3" json:"xtalkWindow,omitempty"`
+	EnergyWindow       []uint32 `protobuf:"varint,14,rep,packed,name=energyWindow,proto3" json:"energyWindow,omitempty"`
+	PositionWindow     int32    `protobuf:"varint,15,opt,name=positionWindow,proto3" json:"positionWindow,omitempty"`
+	Corrected          int32    `protobuf:"varint,16,opt,name=corrected,proto3" json:"corrected,omitempty"`
+	TablePosition      float32  `protobuf:"fixed32,17,opt,name=tablePosition,proto3" json:"tablePosition,omitempty"`
+	TableHeight        float32  `protobuf:"fixed32,18,opt,name=tableHeight,proto3" json:"tableHeight,omitempty"`
+	PETCTSpacing       float32  `protobuf:"fixed32,19,opt,name=PETCTSpacing,proto3" json:"PETCTSpacing,omitempty"`
+	TableCount         int32    `protobuf:"varint,20,opt,name=tableCount,proto3" json:"tableCount,omitempty"`
+	TableIndex         int32    `protobuf:"varint,21,opt,name=tableIndex,proto3" json:"tableIndex,omitempty"`
+	ScanLengthPerTable float32  `protobuf:"fixed32,22,opt,name=scanLengthPerTable,proto3" json:"scanLengthPerTable,omitempty"`
+	PatientID          string   `protobuf:"bytes,23,opt,name=patientID,proto3" json:"patientID,omitempty"`
+	StudyID            string   `protobuf:"bytes,24,opt,name=studyID,proto3" json:"studyID,omitempty"`
+	PatientName        string   `protobuf:"bytes,25,opt,name=patientName,proto3" json:"patientName,omitempty"`
+	PatientSex         string   `protobuf:"bytes,26,opt,name=patientSex,proto3" json:"patientSex,omitempty"`
+	PatientHeight      float32  `protobuf:"fixed32,27,opt,name=patientHeight,proto3" json:"patientHeight,omitempty"`
+	PatientWeight      float32  `protobuf:"fixed32,28,opt,name=patientWeight,proto3" json:"patientWeight,omitempty"`
 }
 
 func (x *AcquisitionInfo) Reset() {
@@ -691,7 +691,7 @@ func (x *AcquisitionInfo) GetXtalkWindow() float32 {
 	return 0
 }
 
-func (x *AcquisitionInfo) GetEnergyWindow() []float32 {
+func (x *AcquisitionInfo) GetEnergyWindow() []uint32 {
 	if x != nil {
 		return x.EnergyWindow
 	}
@@ -1659,7 +1659,7 @@ var file_dpet_proto_rawDesc = []byte{
 	0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x20, 0x0a, 0x0b, 0x78, 0x74, 0x61, 0x6c, 0x6b, 0x57,
 	0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x02, 0x52, 0x0b, 0x78, 0x74, 0x61,
 	0x6c, 0x6b, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x22, 0x0a, 0x0c, 0x65, 0x6e, 0x65, 0x72,
-	0x67, 0x79, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x0e, 0x20, 0x03, 0x28, 0x02, 0x52, 0x0c,
+	0x67, 0x79, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x0e, 0x20, 0x03, 0x28, 0x0d, 0x52, 0x0c,
 	0x65, 0x6e, 0x65, 0x72, 0x67, 0x79, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x12, 0x26, 0x0a, 0x0e,
 	0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x69, 0x6e, 0x64, 0x6f, 0x77, 0x18, 0x0f,
 	0x20, 0x01, 0x28, 0x05, 0x52, 0x0e, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x57, 0x69,

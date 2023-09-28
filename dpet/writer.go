@@ -1,6 +1,7 @@
 package dpet
 
 import (
+	"bytes"
 	"compress/flate"
 	"encoding/binary"
 	"google.golang.org/protobuf/proto"
@@ -14,6 +15,9 @@ func Write(dataset *Dataset, writer io.Writer) error {
 	if err != nil {
 		return err
 	}
+	if dataset.DataBuf != nil {
+		return writeBinaryData(dataset.DataBuf, writer)
+	}
 
 	switch drive {
 	case "930":
@@ -21,12 +25,12 @@ func Write(dataset *Dataset, writer io.Writer) error {
 	case "e180":
 		return writeDataE180(fileType, dataset, writer)
 	}
-
 	return UnknownDrive
 }
 
 func writeData930(fileType FileType, data interface{}, writer io.Writer) error {
 	fw, err := flate.NewWriter(writer, flate.BestCompression)
+	defer fw.Flush()
 	if err != nil {
 		return err
 	}
@@ -38,13 +42,15 @@ func writeData930(fileType FileType, data interface{}, writer io.Writer) error {
 		listMode, _ := data.(*ListModeCoinData930)
 		return writeListModeCoinData930(listMode, fw)
 	case FileType_Mich:
-		//todo
+		mich, _ := data.([]uint16)
+		return writeMichData930(mich, fw)
 	}
 	return UnknownFileType
 }
 
 func writeDataE180(fileType FileType, data interface{}, writer io.Writer) error {
 	fw, err := flate.NewWriter(writer, flate.BestCompression)
+	defer fw.Flush()
 	if err != nil {
 		return err
 	}
@@ -56,7 +62,8 @@ func writeDataE180(fileType FileType, data interface{}, writer io.Writer) error 
 		listMode, _ := data.(*ListModeCoinDataE180)
 		return writeListModeCoinDataE180(listMode, fw)
 	case FileType_Mich:
-		//todo
+		mich, _ := data.([]float32)
+		return writeMichDataE180(mich, fw)
 	}
 	return UnknownFileType
 }
@@ -85,12 +92,12 @@ func writeHead(header *Header, writer io.Writer) error {
 	return nil
 }
 
-func writeBinaryData(data []byte, writer io.Writer) error {
+func writeBinaryData(buf *bytes.Buffer, writer io.Writer) error {
 	fw, err := flate.NewWriter(writer, flate.BestCompression)
 	if err != nil {
 		return err
 	}
-	_, err = fw.Write(data)
+	_, err = io.Copy(fw, buf)
 	if err != nil {
 		return err
 	}
@@ -140,6 +147,16 @@ func writeListModeCoinDataE180(data *ListModeCoinDataE180, w io.Writer) (err err
 	return nil
 }
 
+func writeMichDataE180(data []float32, w io.Writer) (err error) {
+	for i := range data {
+		err = binary.Write(w, binary.LittleEndian, data[i])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func writeRawData930(data *RawData930, w io.Writer) (err error) {
 	for _, item := range data.List {
 		_, err = w.Write(item.Data)
@@ -166,6 +183,16 @@ func writeListModeCoinData930(data *ListModeCoinData930, w io.Writer) (err error
 		err = binary.Write(w, binary.LittleEndian, item.Time)
 		if err != nil {
 			return
+		}
+	}
+	return nil
+}
+
+func writeMichData930(data []uint16, w io.Writer) (err error) {
+	for i := range data {
+		err = binary.Write(w, binary.LittleEndian, data[i])
+		if err != nil {
+			return err
 		}
 	}
 	return nil
