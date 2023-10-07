@@ -44,6 +44,10 @@ func Parse(buf *bytes.Buffer, opt ...ParseOption) (*Dataset, error) {
 	}
 	dataset.Header = header
 
+	if option.onlyHeader {
+		return dataset, nil
+	}
+
 	// deflate解压
 	fr := flate.NewReader(buf)
 	decompressBuf := bytes.NewBuffer(nil)
