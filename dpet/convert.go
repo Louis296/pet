@@ -61,6 +61,7 @@ func convertFrom930(dataset *dpetk.DataSet) *Dataset {
 			Content:       petHeader,
 		},
 		DataBuf: dataset.DataBuf,
+		Data:    dataset.MichData,
 	}
 }
 
