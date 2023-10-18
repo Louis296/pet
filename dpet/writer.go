@@ -29,7 +29,7 @@ func Write(dataset *Dataset, writer io.Writer) error {
 }
 
 func writeData930(fileType FileType, data interface{}, writer io.Writer) error {
-	fw, err := flate.NewWriter(writer, flate.DefaultCompression)
+	fw, err := flate.NewWriter(writer, flate.BestCompression)
 	defer fw.Flush()
 	if err != nil {
 		return err
@@ -49,7 +49,7 @@ func writeData930(fileType FileType, data interface{}, writer io.Writer) error {
 }
 
 func writeDataE180(fileType FileType, data interface{}, writer io.Writer) error {
-	fw, err := flate.NewWriter(writer, flate.DefaultCompression)
+	fw, err := flate.NewWriter(writer, flate.BestCompression)
 	defer fw.Flush()
 	if err != nil {
 		return err
@@ -93,12 +93,11 @@ func writeHead(header *Header, writer io.Writer) error {
 }
 
 func writeBinaryData(buf *bytes.Buffer, writer io.Writer) error {
-	fw, err := flate.NewWriter(writer, flate.DefaultCompression)
+	fw, err := flate.NewWriter(writer, flate.BestCompression)
 	if err != nil {
 		return err
 	}
-	//_, err = io.Copy(fw, buf)
-	_, err = io.CopyBuffer(fw, buf, make([]byte, 128*1024*1024))
+	_, err = io.Copy(fw, buf)
 	if err != nil {
 		return err
 	}

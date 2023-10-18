@@ -21,7 +21,7 @@ func Parse(reader io.Reader, parseData bool) (*DataSet, error) {
 	p := &Parser{
 		reader:    reader,
 		byteOrder: binary.LittleEndian,
-		modifyStr: true,
+		modifyStr: false,
 
 		parseData: parseData,
 	}
