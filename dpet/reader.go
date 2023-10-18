@@ -58,9 +58,9 @@ func Parse(buf *bytes.Buffer, opt ...ParseOption) (*Dataset, error) {
 		return dataset, nil
 	}
 	switch header.Content.ScannerInfo.Device {
-	case "930":
+	case File930:
 		parseData930(buf, header.Content.PublicInfo.FileType)
-	case "e180":
+	case FileE180:
 		parseDataE180(buf, header.Content.PublicInfo.FileType)
 	}
 	return dataset, nil

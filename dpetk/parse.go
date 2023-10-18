@@ -344,7 +344,7 @@ func (p *Parser) mustNextFloat64() float64 {
 func modifyString(bs []byte) string {
 	i := len(bs) - 1
 	for i >= 0 {
-		if bs[i] != 0 {
+		if bs[i] != 0 && bs[i] != ' ' {
 			break
 		}
 		i--

@@ -88,3 +88,7 @@ const (
 const (
 	BDMInfoBodyByteLen = 16
 )
+const (
+	File930  = "DigitMI-930"
+	FileE180 = "180"
+)
