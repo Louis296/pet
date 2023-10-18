@@ -6,9 +6,9 @@ import (
 	"reflect"
 )
 
-func ParseFrom930(buf *bytes.Buffer, parseData bool) (*Dataset, error) {
+func ParseFrom930(buf *bytes.Buffer) (*Dataset, error) {
 	reader := bytes.NewReader(buf.Bytes())
-	dataset930, err := dpetk.Parse(reader, parseData)
+	dataset930, err := dpetk.Parse(reader, false)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,6 @@ func convertFrom930(dataset *dpetk.DataSet) *Dataset {
 			Content:       petHeader,
 		},
 		DataBuf: dataset.DataBuf,
-		Data:    dataset.MichData,
 	}
 }
 
