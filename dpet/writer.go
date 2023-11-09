@@ -20,6 +20,8 @@ func Write(dataset *Dataset, writer io.Writer) error {
 	}
 
 	switch drive {
+	case FileI30:
+		fallthrough
 	case File930:
 		return writeData930(fileType, dataset, writer)
 	case FileE180:

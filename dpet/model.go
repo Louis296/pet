@@ -91,4 +91,5 @@ const (
 const (
 	File930  = "DigitMI-930"
 	FileE180 = "180"
+	FileI30  = "DigitMI-i30"
 )
