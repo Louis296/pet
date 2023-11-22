@@ -361,6 +361,9 @@ func modifyStringByFirstBlank(bs []byte) string {
 		}
 		i++
 	}
+	if i == len(bs) {
+		i--
+	}
 	for i >= 0 {
 		if bs[i] != ' ' {
 			break

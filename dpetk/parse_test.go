@@ -22,6 +22,7 @@ func TestParser(t *testing.T) {
 			0x74, 0x65, 0x73, 0x74,
 		}),
 		byteOrder: binary.BigEndian,
+		modifyStr: true,
 	}
 	fmt.Println(p.mustNextUint16())
 	fmt.Println(p.mustNextUint32())
