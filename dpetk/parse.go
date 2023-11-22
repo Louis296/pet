@@ -361,16 +361,14 @@ func modifyStringByFirstBlank(bs []byte) string {
 		}
 		i++
 	}
-	if i == len(bs) {
-		i--
-	}
+	i--
 	for i >= 0 {
 		if bs[i] != ' ' {
 			break
 		}
 		i--
 	}
-	return string(bs[:i])
+	return string(bs[:i+1])
 }
 
 func toIPStr(ip uint16) string {

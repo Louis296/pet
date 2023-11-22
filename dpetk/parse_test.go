@@ -18,8 +18,10 @@ func TestParser(t *testing.T) {
 			0x3d, 0xcc, 0xcc, 0xcd,
 			// []float32: {0.1,0.2}
 			0x3d, 0xcc, 0xcc, 0xcd, 0x3e, 0x4c, 0xcc, 0xcd,
-			// string: test
-			0x74, 0x65, 0x73, 0x74,
+			// string: "test [nil][nil]"
+			0x74, 0x65, 0x73, 0x74, 0x20, 0x00, 0x00,
+			// string: " [nil]"
+			0x20, 0x00, 0x00,
 		}),
 		byteOrder: binary.BigEndian,
 		modifyStr: true,
@@ -28,5 +30,6 @@ func TestParser(t *testing.T) {
 	fmt.Println(p.mustNextUint32())
 	fmt.Println(p.mustNextFloat32())
 	fmt.Println(p.mustNextFloat32Slice(2))
-	fmt.Println(p.mustNextString(4))
+	fmt.Println(p.mustNextString(7))
+	fmt.Println(p.mustNextString(3))
 }
