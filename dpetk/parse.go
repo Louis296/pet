@@ -266,7 +266,7 @@ func (p *Parser) nextString(l int) (string, error) {
 		return "", err
 	}
 	if p.modifyStr {
-		return modifyString(res), nil
+		return modifyStringByFirstBlank(res), nil
 	}
 	return string(res), nil
 }
@@ -350,6 +350,24 @@ func modifyString(bs []byte) string {
 		i--
 	}
 	return string(bs[:i+1])
+}
+
+// modifyStringByFirstBlank 将bytes转为string，并从第一个空白字符处截断
+func modifyStringByFirstBlank(bs []byte) string {
+	i := 0
+	for i < len(bs) {
+		if bs[i] == 0 {
+			break
+		}
+		i++
+	}
+	for i >= 0 {
+		if bs[i] != ' ' {
+			break
+		}
+		i--
+	}
+	return string(bs[:i])
 }
 
 func toIPStr(ip uint16) string {
